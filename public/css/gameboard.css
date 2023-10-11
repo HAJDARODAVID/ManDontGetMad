@@ -1,0 +1,87 @@
+:root {
+    --hexColor: rgb(255, 255, 255);
+    /*hexW def: 100 */
+    --hexW: 890px;
+    --hexH: calc(var(--hexW)*0.55);
+    /*hexHWafter def: 57 */
+    --hexHWafter: calc(var(--hexH)*1.0495);
+    --hexLeftAfter: calc(var(--hexHWafter)*0.368);
+    --hexTopBefore: calc(var(--hexW)*-0.289);
+    --hexTopAfter: calc(var(--hexW)*0.262);
+    ;
+}
+
+.hexagon {
+    width: var(--hexW);
+    height: var(--hexH);
+    position: relative;
+}
+
+.hexagon,
+.hexagon:before,
+.hexagon:after {
+    background: var(--hexColor);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.hexagon:before,
+.hexagon:after {
+    content: "";
+    position: absolute;
+    left: var(--hexLeftAfter);
+    width: var(--hexHWafter);
+    height: var(--hexHWafter);
+    /* transform: rotate(145deg) skew(22.5deg); */
+    transform: rotate(144.5deg) skew(22deg);
+}
+
+.hexagon:before {
+    /* top: -29px; */
+    top: var(--hexTopBefore);
+}
+
+.hexagon:after {
+    /* top: 27px; */
+    top: var(--hexTopAfter);
+}
+
+.hexagon span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--hexW);
+    height: var(--hexH);
+    background: var(--hexColor);
+    z-index: 1;
+}
+
+.home-pawns {
+    /* background-color: rgb(42, 44, 180); */
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.dot {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.circle {
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 3px;
+    display: inline-block;
+    background-color: beige;
+
+}
