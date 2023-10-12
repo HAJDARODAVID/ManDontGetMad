@@ -1,5 +1,5 @@
 :root {
-    --hexColor: rgb(255, 255, 255);
+    --hexColor: rgb(255, 222, 180);
     /*hexW def: 100 */
     --hexW: 890px;
     --hexH: calc(var(--hexW)*0.55);
