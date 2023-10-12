@@ -68,20 +68,48 @@
     height: 45px;
     width: 45px;
     border-radius: 50%;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
     display: inline-block;
     margin-right: 15px;
     margin-bottom: 15px;
 }
 
 .circle {
+
+    height: 45px;
+    width: 45px;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 2px;
+    display: inline-block;
+    background-color: beige;
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+.circle2 {
     position: absolute;
     height: 45px;
     width: 45px;
     border-style: solid;
     border-radius: 50%;
     border-color: black;
-    border-width: 3px;
+    border-width: 1px;
     display: inline-block;
     background-color: beige;
+
+}
+
+.helper {
+    position: absolute;
+    width: 133px;
+    height: 45px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+
 
 }
