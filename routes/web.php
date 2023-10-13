@@ -24,4 +24,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/gameboard', function(){
     return view('gameboard.gameboard');
-})->name('gameboard');
+})->name('gameboard')->middleware('checkIfGameboard');

@@ -26,7 +26,12 @@
             </a>
             <ul class="navbar-nav ms-auto"  style="margin-top:3px; margin-top:2px;margin-right:5px">
             <li class="nav-item">
-                <a class="nav-link" style="padding: 0px;" href="#">{{ __('Login') }}</a>
+                <a class="nav-link" style="padding: 0px;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </li>
             </ul>
 

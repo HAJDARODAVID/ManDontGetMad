@@ -80,6 +80,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <script src="{{ url('js/script.js') }}"></script>
     </div>
 </body>
 </html>
