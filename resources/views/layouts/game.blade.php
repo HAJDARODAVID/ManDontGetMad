@@ -21,18 +21,29 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="padding: 0px; margin:0px;">
-            <a class="navbar-brand" href="{{ url('/') }}" style="margin-left:10px">
-                Man don't get mad #00001
-            </a>
+            <livewire:gameboard.gameboard-title lastName="{{ $myGameRoom }}" />
             <ul class="navbar-nav ms-auto"  style="margin-top:3px; margin-top:2px;margin-right:5px">
-            <li class="nav-item">
-                <a class="nav-link" style="padding: 0px;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                 {{ __('Logout') }}
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </li>
+                @if (!session('gameRoom'))
+                    <li class="nav-item">
+                        <a class="nav-link" style="padding: 0px;padding-right: 10px" href="{{ route('gameboard') }}">
+                            Game rooms
+                        </a>
+                    </li>  
+                @endif
+                
+                @if (session('gameRoom'))
+                    <li class="nav-item">
+                        <livewire:gameboard.leave-room-button />
+                    </li>   
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link" style="padding: 0px;padding-right: 10px" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
             </ul>
 
         </nav>
@@ -41,5 +52,6 @@
             @yield('content')
         </main>
     </div>
+    @livewireScripts
 </body>
 </html>

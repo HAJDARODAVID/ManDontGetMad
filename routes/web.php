@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/gameboard', function(){
-    return view('gameboard.gameboard');
-})->name('gameboard')->middleware('checkIfGameboard');
+Route::controller(GameboardController::class)
+->middleware('checkIfGameboard')
+->group(function(){
+    Route::get('/gameboard', 'index')->name('gameboard');
+});
