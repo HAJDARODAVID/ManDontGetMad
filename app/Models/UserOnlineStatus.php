@@ -10,4 +10,8 @@ class UserOnlineStatus extends Model
     use HasFactory;
 
     protected $table="user_online_status";
+
+    protected $fillable = [
+        'user_id',
+    ];
 }

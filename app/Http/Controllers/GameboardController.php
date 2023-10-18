@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\GameRoom;
 use Illuminate\Http\Request;
 use App\Models\GameRoomMember;
+use App\Models\UserOnlineStatus;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -24,7 +26,7 @@ class GameboardController extends Controller
 
         //dd(GameRoomMember::with(['getPlayerInfo'])->get());
 
-        dd(User::where('type', 1)->with('getPlayerRoom.getGameInfo')->get());
+        //dd(date("Y-m-d h:m:s"));
         
        
         if(!(Auth::user())){

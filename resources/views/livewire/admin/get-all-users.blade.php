@@ -16,7 +16,7 @@
                     <td>{{ sprintf("%04d", $player->id)  }}</td>
                     <td>{{ $player->name }}</td>
                     <td>YES</td>
-                    <td>{{ sprintf("%04d",$player->getPlayerRoom->game_id) }} [{{ $player->getPlayerRoom->getGameInfo->status }}]</td>
+                    <td>{{ sprintf("%04d",$player->getPlayerRoom->game_id ?? '0') }} [{{ $player->getPlayerRoom->getGameInfo->status ?? '0' }}]</td>
                     <td>
                         <button class="btn btn-success btn-sm">Show</button>
                     </td>

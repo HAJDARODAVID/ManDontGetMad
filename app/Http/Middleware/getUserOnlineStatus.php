@@ -18,15 +18,16 @@ class getUserOnlineStatus
      */
     public function handle(Request $request, Closure $next): Response
     {  
-        
-        
-            if($request->user()->type == 1){
-                if(UserOnlineStatus::where('user_id',Auth::user()->id)){
-                    UserOnlineStatus::where('user_id',Auth::user()->id)->update(['user_id' => Auth::user()->id]);
-                }else{
+       //dd($request->getRequestUri());
+        if(!($request->user() === NULL) && $request->getRequestUri() != '/livewire/update'){
+            if($request->user()->type == 1){  
+                if(UserOnlineStatus::where('user_id',Auth::user()->id)->get()->count() == 0){
                     UserOnlineStatus::create(['user_id' => Auth::user()->id]);
+                }else{
+                    UserOnlineStatus::where('user_id',Auth::user()->id)->update(['user_id' => $request->user()->id]);
                 }
             }
+        }
         
         return $next($request);
     }
