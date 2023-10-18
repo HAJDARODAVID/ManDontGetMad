@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\GameRoom;
-use App\Models\GameRoomMember;
 use Illuminate\Http\Request;
+use App\Models\GameRoomMember;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,7 +22,9 @@ class GameboardController extends Controller
         // $player = GameRoomMember::with(['player'])->get();
         // dd($player);
 
-        dd(GameRoomMember::with(['getPlayerInfo'])->get());
+        //dd(GameRoomMember::with(['getPlayerInfo'])->get());
+
+        dd(User::where('type', 1)->with('getPlayerRoom.getGameInfo')->get());
         
        
         if(!(Auth::user())){

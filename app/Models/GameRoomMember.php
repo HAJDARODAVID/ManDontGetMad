@@ -23,4 +23,9 @@ class GameRoomMember extends Model
     {
         return $this->hasONe(User::class, 'id','user_id');
     }
+
+    public function getGameInfo(): HasOne
+    {
+        return $this->hasONe(GameRoom::class, 'id','game_id');
+    }
 }
