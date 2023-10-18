@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GameRoom;
+use App\Models\GameRoomMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,9 +12,17 @@ class GameboardController extends Controller
 {
     public function index(Request $request){
 
-        //$request->session()->pull('gameRoom');
+        //GameRoom::create(['status'=>1]);
 
-        //dd($request->session()->all());
+        // GameRoomMember::create([
+        //     'game_id' => 1,
+        //     'user_id' => 1,
+        // ]);
+        // $player = GameRoomMember::with(['player'])->get();
+        // dd($player);
+
+        dd(GameRoomMember::with(['getPlayerInfo'])->get());
+        
        
         if(!(Auth::user())){
             return redirect('/');

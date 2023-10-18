@@ -6,7 +6,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="AddNewAdmItem">Add new menu item</h5>
+        <h5 class="modal-title" id="availablRooms">Availabl rooms:</h5>
         <button type="button" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('availablRoomsModal').style.display='none';">
           X
         </button>
@@ -23,7 +23,7 @@
             <tbody>
               @foreach ($availableRooms as $rooms)
                 <tr>
-                  <th scope="row">{{ $rooms->id }}</th>
+                  <th scope="row">{{ sprintf("%04d", $rooms->id) }}</th>
                   <td>{{ $rooms->created_at }}</td>
                   <td>
                     <button type="button" class="btn btn-success" wire:click="joinRoom({{ $rooms->id }})">

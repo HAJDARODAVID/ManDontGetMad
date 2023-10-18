@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 class SelectGameRoomModal extends Component
 {
     public $display;
-    //public $availableRooms;
-
-    // public function mount(){
-    //     $this->availableRooms = GameRoom::where('status', 1)->get();
-    // }
 
     public function joinRoom(Request $request, $room){
         $request->session()->put('gameRoom', $room);

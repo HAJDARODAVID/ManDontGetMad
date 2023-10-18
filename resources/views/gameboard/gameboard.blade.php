@@ -4,26 +4,32 @@
 
 <livewire:gameboard.select-game-room-modal  display="{{ $displayModal }}"/>
 
+@if (session('gameRoom'))
+  <livewire:gameboard.players-figures gameId="{{ session('gameRoom') }}" /> 
+@endif
+
 
 <div class="gameplata" style="position:absolute;top:260px;left:550px;display: none">
-    {{-- Gameboard-shape --}}
-    <div class="hexagon" style="transform: rotate(90deg);"><span></span></div>
-    
-    {{-- Starting-positions --}}
-    <x-gameboard.home :top="540" :left="200" color="ff0000" :rotation="0"></x-gameboard.home>
-    <x-gameboard.home :top="212" :left="-69" color="51ff00" :rotation="54.5"></x-gameboard.home>
-    <x-gameboard.home :top="-172" :left="148" color="2529ff" :rotation="122.5"></x-gameboard.home>
-    <x-gameboard.home :top="-201" :left="539" color="ff29f4" :rotation="180"></x-gameboard.home>
-    <x-gameboard.home :top="128" :left="808" color="12da97" :rotation="234.5"></x-gameboard.home>
-    <x-gameboard.home :top="512" :left="591" color="fae62f" :rotation="302.5"></x-gameboard.home>
 
-    {{-- Move fields --}}
-    <x-gameboard.move-fields top="399" left="358" rotation="0" baseColor="ff0000" id=""></x-gameboard.move-fields>
-    <x-gameboard.move-fields top="249" left="78" rotation="54.5" baseColor="51ff00" id=""></x-gameboard.move-fields>
-    <x-gameboard.move-fields top="-56" left="87" rotation="122.5" baseColor="2529ff" id=""></x-gameboard.move-fields>
-    <x-gameboard.move-fields top="-213" left="353" rotation="180" baseColor="ff29f4" id=""></x-gameboard.move-fields>
-    <x-gameboard.move-fields top="-62" left="634" rotation="234.5" baseColor="12da97" id=""></x-gameboard.move-fields>
-    <x-gameboard.move-fields top="244" left="623" rotation="302.5" baseColor="fae62f" id=""></x-gameboard.move-fields>
+    
+  {{-- Gameboard-shape --}}
+  <div class="hexagon" style="transform: rotate(90deg);"><span></span></div>
+
+  {{-- Starting-positions --}}
+  <x-gameboard.home :top="540" :left="200" color="ff0000" :rotation="0"></x-gameboard.home>
+  <x-gameboard.home :top="212" :left="-69" color="51ff00" :rotation="54.5"></x-gameboard.home>
+  <x-gameboard.home :top="-172" :left="148" color="2529ff" :rotation="122.5"></x-gameboard.home>
+  <x-gameboard.home :top="-201" :left="539" color="ff29f4" :rotation="180"></x-gameboard.home>
+  <x-gameboard.home :top="128" :left="808" color="12da97" :rotation="234.5"></x-gameboard.home>
+  <x-gameboard.home :top="512" :left="591" color="fae62f" :rotation="302.5"></x-gameboard.home>
+
+  {{-- Move fields --}}
+  <x-gameboard.move-fields top="399" left="358" rotation="0" baseColor="ff0000" id=""></x-gameboard.move-fields>
+  <x-gameboard.move-fields top="249" left="78" rotation="54.5" baseColor="51ff00" id=""></x-gameboard.move-fields>
+  <x-gameboard.move-fields top="-56" left="87" rotation="122.5" baseColor="2529ff" id=""></x-gameboard.move-fields>
+  <x-gameboard.move-fields top="-213" left="353" rotation="180" baseColor="ff29f4" id=""></x-gameboard.move-fields>
+  <x-gameboard.move-fields top="-62" left="634" rotation="234.5" baseColor="12da97" id=""></x-gameboard.move-fields>
+  <x-gameboard.move-fields top="244" left="623" rotation="302.5" baseColor="fae62f" id=""></x-gameboard.move-fields>
 </div>
 
 
