@@ -44,6 +44,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $attributes = [
+        'type' => 1,
+    ];
+
     public function getPlayerRoom():HasOne{
         return $this->hasONe(GameRoomMember::class, 'user_id','id');
     }

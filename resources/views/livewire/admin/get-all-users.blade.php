@@ -15,7 +15,7 @@
                 <tr>
                     <td>{{ sprintf("%04d", $player->id)  }}</td>
                     <td>{{ $player->name }}</td>
-                    <td>YES</td>
+                    <td> @livewire('admin.is-online-icon',['player' => $player->id],key($player->id)) </td>
                     <td>{{ sprintf("%04d",$player->getPlayerRoom->game_id ?? '0') }} [{{ $player->getPlayerRoom->getGameInfo->status ?? '0' }}]</td>
                     <td>
                         <button class="btn btn-success btn-sm">Show</button>

@@ -28,6 +28,10 @@ class getUserOnlineStatus
                 }
             }
         }
+
+        if($request->getRequestUri() == '/logout'){
+            UserOnlineStatus::where('user_id', $request->user()->id)->delete();
+        }
         
         return $next($request);
     }

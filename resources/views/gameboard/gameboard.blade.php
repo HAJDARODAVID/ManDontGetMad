@@ -9,7 +9,7 @@
 @endif
 
 
-<div class="gameplata" style="position:absolute;top:260px;left:550px;display: block">
+<div class="gameplata" style="position:absolute;top:260px;left:550px;display: none">
 
     
   {{-- Gameboard-shape --}}

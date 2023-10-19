@@ -27,6 +27,8 @@ class GameboardController extends Controller
         //dd(GameRoomMember::with(['getPlayerInfo'])->get());
 
         //dd(date("Y-m-d h:m:s"));
+
+        //echo PlayerController::getUserOnlineStatus(2);
         
        
         if(!(Auth::user())){
