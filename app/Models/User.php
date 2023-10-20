@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function getPlayerRoom():HasOne{
         return $this->hasONe(GameRoomMember::class, 'user_id','id');
     }
+
+    public function getLastRequest():HasOne{
+        return $this->hasONe(UserOnlineStatus::class, 'user_id','id');
+    }
 }

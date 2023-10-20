@@ -4,12 +4,12 @@
 
     
     <!-- Modal -->
-    <div class="modal" id="joinInRoomsModal" style="display: {{ $display }}">
+    <div class="modal" id="joinInRoomsModal-{{ $user }}" style="display: {{ $display }}">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="availablRooms">Availabl rooms: {{ $selectedUser }}</h5>
-            <button type="button" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('joinInRoomsModal').style.display='none';">
+            <h5 class="modal-title" id="availablRooms">Availabl rooms:</h5>
+            <button type="button" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('joinInRoomsModal-{{ $user }}').style.display='none';">
                 X
             </button>
             </div>
@@ -29,7 +29,7 @@
                         <td>{{ $room->created_at }}</td>
                         <td>
                         <button type="button" class="btn btn-success" wire:click="joinRoom({{ $room->id }})"
-                            onclick="event.preventDefault(); document.getElementById('joinInRoomsModal').style.display='none';"
+                            onclick="event.preventDefault(); document.getElementById('joinInRoomsModal-{{ $user }}').style.display='none';"
                             >
                             Join
                         </button>

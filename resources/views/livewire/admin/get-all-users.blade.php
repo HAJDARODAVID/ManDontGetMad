@@ -18,7 +18,7 @@
                     <td> @livewire('admin.is-online-icon',['player' => $player->id],key($player->id."isOnline")) </td>
                     <td>{{ sprintf("%04d",$player->getPlayerRoom->game_id ?? '0') }} [{{ $player->getPlayerRoom->getGameInfo->status ?? '0' }}]</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Show</button>
+                        @livewire('admin.show-user-info',['user' => $player->id],key($player->id."showInfo"))
                         @if (!($player->getPlayerRoom->game_id ?? 0))
                             @livewire('admin.join-game-button',['user' => $player->id],key($player->id."joinIn"))  
                         @endif
