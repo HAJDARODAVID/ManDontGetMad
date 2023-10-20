@@ -17,7 +17,7 @@
                     <td>{{ $room->created_at }}</td>
                     <td>
                         <button class="btn btn-success btn-sm">Start</button>
-                        <button class="btn btn-danger btn-sm">Cancle</button>
+                        <button class="btn btn-danger btn-sm" wire:click='test({{ $room->id }})'>Cancle</button>
                     </td>
                 </tr>
             @endforeach
