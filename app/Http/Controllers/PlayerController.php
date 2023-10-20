@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GameRoomMember;
+use App\Models\User;
 use App\Models\UserOnlineStatus;
 use Illuminate\Http\Request;
 
@@ -17,5 +19,9 @@ class PlayerController extends Controller
         }else{
             return false;
         }
+    }
+
+    static public function removeUserFromGame(User $user){
+        GameRoomMember::where('user_id', $user->id)->delete();
     }
 }

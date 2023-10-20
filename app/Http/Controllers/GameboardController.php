@@ -29,7 +29,7 @@ class GameboardController extends Controller
         //dd(date("Y-m-d h:m:s"));
 
         //echo PlayerController::getUserOnlineStatus(2);
-        
+        AdminController::cancelRoom(51);
        
         if(!(Auth::user())){
             return redirect('/');
