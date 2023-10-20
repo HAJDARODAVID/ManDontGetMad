@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\checkIfGameboard;
 use App\Http\Middleware\getUserOnlineStatus;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkIfGameboard' => checkIfGameboard::class,
+        'isAdmin' => isAdmin::class,
     ];
 }

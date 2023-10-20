@@ -31,7 +31,7 @@ Route::controller(GameboardController::class)
 });
 
 Route::controller(AdminController::class)
-/*->middleware('checkIfGameboard')*/
+/*->middleware('isAdmin')*/
 ->prefix('admin')
 ->group(function(){
     Route::get('/', 'index')->name('gameController');
