@@ -16,8 +16,10 @@
                     <td>{{ $room->status }}</td>
                     <td>{{ $room->created_at }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm">Start</button>
-                        <button class="btn btn-danger btn-sm" wire:click='test({{ $room->id }})'>Cancle</button>
+                        @if ($room->status == 0)
+                            <button class="btn btn-success btn-sm" wire:click='startGame({{ $room->id }})'>Start</button>    
+                        @endif
+                        <button class="btn btn-danger btn-sm" wire:click='cancelGame({{ $room->id }})'>Cancle</button>
                     </td>
                 </tr>
             @endforeach

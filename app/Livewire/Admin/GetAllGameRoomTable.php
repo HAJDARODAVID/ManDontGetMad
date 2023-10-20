@@ -13,7 +13,7 @@ class GetAllGameRoomTable extends Component
 {
     protected $listeners = ['refreshComponent' => '$refresh'];
 
-    public function test($room){
+    public function cancelGame($room){
         $roomObj= GameRoom::where('id', $room)->first();
         $roomMemberObj = GameRoomMember::where('game_id', $roomObj->id)->get();
         foreach ($roomMemberObj as $member) {
@@ -22,6 +22,10 @@ class GetAllGameRoomTable extends Component
         $roomObj->update([
             'status' => -1,
         ]);
+    }
+
+    public function startGame($room){
+        GameRoom::where('id', $room)->update(['status'=>1]);
     }
 
     #[On('refreshComponent')]
