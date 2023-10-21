@@ -24,4 +24,6 @@ class PlayerController extends Controller
     static public function removeUserFromGame(User $user){
         GameRoomMember::where('user_id', $user->id)->delete();
     }
+
+    
 }

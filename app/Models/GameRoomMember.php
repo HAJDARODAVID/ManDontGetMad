@@ -17,6 +17,7 @@ class GameRoomMember extends Model
     protected $fillable = [
         'user_id',
         'game_id',
+        'color',
     ];
 
     public function getPlayerInfo(): HasOne

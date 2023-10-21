@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\User;
 use App\Models\GameRoom;
 use Illuminate\Http\Request;
 use App\Models\GameRoomMember;
 use App\Models\UserOnlineStatus;
-use DateTime;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\GameController;
 
 
 class GameboardController extends Controller
@@ -29,7 +30,9 @@ class GameboardController extends Controller
         //dd(date("Y-m-d h:m:s"));
 
         //echo PlayerController::getUserOnlineStatus(2);
-        AdminController::cancelRoom(51);
+        //AdminController::cancelRoom(51);
+
+        GameController::startGame(2);
        
         if(!(Auth::user())){
             return redirect('/');

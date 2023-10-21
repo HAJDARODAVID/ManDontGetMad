@@ -8,7 +8,7 @@
   <livewire:gameboard.players-figures gameId="{{ session('gameRoom') }}" /> 
 @endif
 
-<div class="gameplata" style="position:absolute;top:260px;left:550px;display: none">
+<div class="gameplata" style="position:absolute;top:260px;left:550px;display: block">
 
     
   {{-- Gameboard-shape --}}
