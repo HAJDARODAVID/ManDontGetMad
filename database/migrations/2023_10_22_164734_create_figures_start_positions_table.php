@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('game_room_members', function (Blueprint $table) {
-            $table->unsignedBigInteger('figure_id')->nullable();
+        Schema::create('figures_start_positions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('figure_id');
+            $table->integer('postFix');
+            $table->bigInteger('top');
+            $table->bigInteger('left');
 
             $table->foreign('figure_id')->references('id')->on('figures');
         });
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('figures_start_positions');
     }
 };

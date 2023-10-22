@@ -17,7 +17,7 @@ class GameRoomMember extends Model
     protected $fillable = [
         'user_id',
         'game_id',
-        'color',
+        'figure_id',
     ];
 
     public function getPlayerInfo(): HasOne
@@ -28,5 +28,9 @@ class GameRoomMember extends Model
     public function getGameInfo(): HasOne
     {
         return $this->hasONe(GameRoom::class, 'id','game_id');
+    }
+    public function getFigureInfo(): HasMany
+    {
+        return $this->hasMany(FigureModel::class, 'id','figure_id');
     }
 }

@@ -32,7 +32,9 @@ class GameboardController extends Controller
         //echo PlayerController::getUserOnlineStatus(2);
         //AdminController::cancelRoom(51);
 
-        GameController::startGame(2);
+        //GameController::startGame(1);
+
+        dd(GameRoomMember::with('getFigureInfo')->get());
        
         if(!(Auth::user())){
             return redirect('/');

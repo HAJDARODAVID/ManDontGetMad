@@ -18,7 +18,10 @@ class getUserOnlineStatus
      */
     public function handle(Request $request, Closure $next): Response
     {  
-       //dd($request->getRequestUri());
+       //dd($request->getContent());
+
+
+  
         if(!($request->user() === NULL) && $request->getRequestUri() != '/livewire/update'){
             if($request->user()->type == 1){  
                 if(UserOnlineStatus::where('user_id',Auth::user()->id)->get()->count() == 0){
