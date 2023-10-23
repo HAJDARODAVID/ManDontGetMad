@@ -34,5 +34,6 @@ Route::controller(AdminController::class)
 /*->middleware('isAdmin')*/
 ->prefix('admin')
 ->group(function(){
-    Route::get('/', 'index')->name('gameController');
+    Route::get('/', 'index')->name('dashboard');
+    Route::get('/fieldsEditor', 'fieldsEditor')->name('fieldsEditor');
 });

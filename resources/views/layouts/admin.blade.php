@@ -96,12 +96,23 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
-              <span data-feather="home" class="align-text-bottom"></span>
-              Dashboard
-            </a>
-          </li>
+          @if (Route::has('dashboard'))
+            <li class="nav-item">
+              <a class="nav-link @if(Route::currentRouteName() == 'dashboard') active @endif" aria-current="page" href="{{ route('dashboard') }}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Dashboard
+              </a>
+            </li> 
+          @endif
+          @if (Route::has('fieldsEditor'))
+            <li class="nav-item">
+              <a class="nav-link @if(Route::currentRouteName() == 'fieldsEditor') active @endif" aria-current="page" href="{{ route('fieldsEditor') }}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Fields editor
+              </a>
+            </li> 
+          @endif
+          
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file" class="align-text-bottom"></span>

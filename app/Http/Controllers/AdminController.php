@@ -9,7 +9,11 @@ use App\Models\GameRoomMember;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin.admin');
+        return view('admin.dashboard');
+    }
+
+    public function fieldsEditor(){
+        return view('admin.fieldsEditor');
     }
 
     static public function getAllGameRooms(){
