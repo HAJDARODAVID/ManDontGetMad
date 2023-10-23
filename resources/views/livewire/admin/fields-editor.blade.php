@@ -73,7 +73,28 @@
             </div>
         </div>  
         <div class="col-sm">
-            tu ide tablica
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#field</th>
+                        <th scope="col">Alias</th>
+                        <th scope="col">Top</th>
+                        <th scope="col">Left</th>
+                        <th scope="col">NextField</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($fields as $field)
+                        <tr>
+                            <td>{{ sprintf("%04d", $field->id)  }}</td>
+                            <td>{{ $field->alias }}</td>
+                            <td>{{ $field->top }}</td>
+                            <td>{{ $field->left }}</td>
+                            <td>{{ $field->nextField }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div> 
     </div>
 </div>
