@@ -34,7 +34,7 @@ class GameboardController extends Controller
 
         //GameController::startGame(1);
 
-        dd(GameRoomMember::with('getFigureInfo')->get());
+        //dd(GameRoomMember::with('getFigureInfo')->get());
        
         if(!(Auth::user())){
             return redirect('/');

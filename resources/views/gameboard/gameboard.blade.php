@@ -8,11 +8,16 @@
   <livewire:gameboard.players-figures gameId="{{ session('gameRoom') }}" /> 
 @endif
 
+
+
 <div class="gameplata" style="position:absolute;top:260px;left:550px;display: block">
 
+  
     
   {{-- Gameboard-shape --}}
   <div class="hexagon" style="transform: rotate(90deg);"><span></span></div>
+
+  @livewire('gameboard.admin-figure')
 
   {{-- Starting-positions --}}
   <x-gameboard.home :top="540" :left="200" color="ff0000" :rotation="0"></x-gameboard.home>
