@@ -24,6 +24,10 @@ class GetAllGameRoomTable extends Component
         ]);
     }
 
+    public function test($room){
+        dd('test');
+    }
+
     public function startGame($room){
         GameRoom::where('id', $room)->update(['status'=>1]);
     }

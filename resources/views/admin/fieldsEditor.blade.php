@@ -4,8 +4,8 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Fields editor</h1>
 </div>
-<div>
-    Not all who wander are lost
+<div class="container">
+    @livewire('admin.fields-editor')
 </div>
 
 @endsection
