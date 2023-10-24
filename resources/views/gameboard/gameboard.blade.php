@@ -17,7 +17,10 @@
   {{-- Gameboard-shape --}}
   <div class="hexagon" style="transform: rotate(90deg);"><span></span></div>
 
-  @livewire('gameboard.admin-figure')
+  @if (Auth::user()->type == 2)
+    @livewire('gameboard.admin-figure')
+  @endif
+  
 
   {{-- Starting-positions --}}
   <x-gameboard.home :top="540" :left="200" color="ff0000" :rotation="0"></x-gameboard.home>
