@@ -67,7 +67,7 @@
                         LEFT:   @isset($fieldProperty->left){{ $fieldProperty->left }}px @endisset                 
                     </p>
                     <label for="">Next field id: </label>
-                    <input type="text" class="form-control form-control-sm" style="display: inline; width: 150px"><br><br>
+                    <input type="text" class="form-control form-control-sm" style="display: inline; width: 150px" wire:model.live='nextField'><br><br>
                     <button class="btn btn-success " wire:click='saveField()'>SAVE</button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <th scope="col">NextField</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody wire:loading.remove>
                     @foreach ($fields as $field)
                         <tr>
                             <td>{{ sprintf("%04d", $field->id)  }}</td>

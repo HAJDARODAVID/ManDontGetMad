@@ -13,11 +13,20 @@ class FieldsEditor extends Component
     public $newFieldName;
     public $fields;
     public $fieldProperty;
+    public $nextField;
 
     public function mount(){
-        $this->fields = FieldsModel::all();
+        $fields = FieldsModel::orderBy('id', 'DESC');
+        $this->fields = $fields->get();
+        $this->selectedField = $fields->first()->alias;
+        if($fields->first() != NULL){
+            $adminFigure=AdminFigureModel::where('id',1)->first();
+            $adminFigure->update([
+                'left' => $fields->first()->left,
+                'top' => $fields->first()->top,
+            ]);
+        }
     }
-
 
     public function updatedSelectedField(){
         $field=FieldsModel::where('alias', $this->selectedField)->first();
@@ -27,7 +36,9 @@ class FieldsEditor extends Component
                 'left' =>$field->left,
             ]);
             $this->fieldProperty = $field;
+            $this->nextField =$this->fieldProperty->nextField;
         }
+        $this->fields = FieldsModel::orderBy('id', 'DESC')->get();
     }
 
     public function moveUp(){
@@ -62,6 +73,7 @@ class FieldsEditor extends Component
             $field->update([
                 'top' =>$adminFigure->top,
                 'left' =>$adminFigure->left,
+                'nextField' => $this->nextField,
             ]);
             $this->selectedField= $this->selectedField;
             return redirect(route('fieldsEditor'));
@@ -70,6 +82,7 @@ class FieldsEditor extends Component
                 'alias' => $this->selectedField,
                 'top' =>$adminFigure->top,
                 'left' =>$adminFigure->left,
+                'nextField' => $this->nextField,
             ]);
             $this->selectedField= $this->selectedField;
             return redirect(route('fieldsEditor'));
