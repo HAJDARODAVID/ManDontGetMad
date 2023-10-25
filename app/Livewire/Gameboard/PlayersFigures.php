@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Gameboard;
 
+use App\Models\FiguresPositionModel;
 use Livewire\Component;
 use App\Models\GameRoomMember;
 
@@ -12,7 +13,7 @@ class PlayersFigures extends Component
     
 
     public function mount(){
-        $this->players = GameRoomMember::where('game_id', $this->gameId)->with(['getPlayerInfo'])->get();
+        $this->players = FiguresPositionModel::where('game_id',$this->gameId)->with('getFigureInfo','getFieldInfo')->get();
     }
     
     public function render()

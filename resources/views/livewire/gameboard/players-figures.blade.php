@@ -1,7 +1,6 @@
-<div>
-    <p>IGRAČI!</p>
-    @foreach ($players as $player)
-        
-        {{ $player->user_id }} - {{ $player->getPlayerInfo->name }}<br>
+<div>   
+    
+    @foreach ($players as $player) 
+        <span class="playerFigure" style="left: {{ $player->getFieldInfo->left }}px; top: {{ $player->getFieldInfo->top }}px; border-color: #{{$player->getFigureInfo->color }};"></span>
     @endforeach
 </div>

@@ -128,3 +128,18 @@
     margin-right: 15px;
     margin-bottom: 5px;
 }
+
+.playerFigure {
+    position: absolute;
+    z-index: 5;
+    height: 57px;
+    width: 57px;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: #383e42;
+    border-width: 5px;
+    display: inline-block;
+    background-color: transparent;
+    margin-right: 15px;
+    margin-bottom: 5px;
+}

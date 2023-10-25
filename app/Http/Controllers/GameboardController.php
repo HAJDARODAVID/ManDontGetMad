@@ -10,7 +10,7 @@ use App\Models\GameRoomMember;
 use App\Models\UserOnlineStatus;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GameController;
-
+use App\Models\FiguresPositionModel;
 
 class GameboardController extends Controller
 {
@@ -35,6 +35,8 @@ class GameboardController extends Controller
         //GameController::startGame(1);
 
         //dd(GameRoomMember::with('getFigureInfo')->get());
+
+        //dd(FiguresPositionModel::with('getFigureInfo')->get());
        
         if(!(Auth::user())){
             return redirect('/');

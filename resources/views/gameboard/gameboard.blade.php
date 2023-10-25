@@ -4,9 +4,7 @@
 
 <livewire:gameboard.select-game-room-modal  display="{{ $displayModal }}"/>
 
-@if (session('gameRoom'))
-  <livewire:gameboard.players-figures gameId="{{ session('gameRoom') }}" /> 
-@endif
+
 
 
 
@@ -19,6 +17,10 @@
 
   @if (Auth::user()->type == 2)
     @livewire('gameboard.admin-figure')
+  @endif
+  
+  @if (session('gameRoom'))
+    <livewire:gameboard.players-figures gameId="{{ session('gameRoom') }}" /> 
   @endif
   
 

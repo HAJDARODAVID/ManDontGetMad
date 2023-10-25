@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\GameRoom;
 use Livewire\Attributes\On; 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Models\GameRoomMember;
 
@@ -29,7 +30,7 @@ class GetAllGameRoomTable extends Component
     }
 
     public function startGame($room){
-        GameRoom::where('id', $room)->update(['status'=>1]);
+        GameController::startGame($room);
     }
 
     #[On('refreshComponent')]
