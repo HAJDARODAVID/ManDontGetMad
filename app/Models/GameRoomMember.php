@@ -29,8 +29,8 @@ class GameRoomMember extends Model
     {
         return $this->hasONe(GameRoom::class, 'id','game_id');
     }
-    public function getFigureInfo(): HasMany
+    public function getFigureInfo(): HasOne
     {
-        return $this->hasMany(FigureModel::class, 'id','figure_id');
+        return $this->hasOne(FigureModel::class, 'id','figure_id');
     }
 }
