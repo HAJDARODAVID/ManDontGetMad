@@ -30,9 +30,25 @@ class GameController extends Controller
                     'figure_sub_id' => substr($field->alias,-1),
                     'field_id' => $field->id,
                 ]);
-            }
-            
+            }  
         } 
+        GameRoomMember::where('game_id', $game)
+        ->orderBy('id','ASC')
+        ->first()
+        ->update(['isMyTurn' => 1]);
+    }
+
+    static public function nextPlayerTurn($game, $user){
+        //End my turn
+        GameRoomMember::where('game_id', $game)
+        ->where('user_id' , $user)->first()
+        ->update(['isMyTurn' => 2]);
+
+        //Get next player
+        GameRoomMember::where('game_id', $game)
+        ->where('isMyTurn', 0)->first()
+        ->update(['isMyTurn' => 1]);
+        
     }
 
 }

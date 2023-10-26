@@ -24,7 +24,8 @@ class JoinGameButton extends Component
     public function joinRoom($roomSelected){
             GameRoomMember::create([
             'user_id' => $this->user,
-            'game_id' => $roomSelected 
+            'game_id' => $roomSelected,
+            'isMyTurn' => 0, 
         ]);
         $this->display = 'none';
         $this->dispatch('start-user-refresh');

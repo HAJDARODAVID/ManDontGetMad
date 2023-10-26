@@ -18,6 +18,7 @@ class GameRoomMember extends Model
         'user_id',
         'game_id',
         'figure_id',
+        'isMyTurn',
     ];
 
     public function getPlayerInfo(): HasOne

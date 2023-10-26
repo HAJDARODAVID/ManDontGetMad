@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Player;
 
+use App\Http\Controllers\GameController;
 use App\Models\FieldsModel;
 use App\Models\FiguresPositionModel;
 use Livewire\Component;
@@ -16,7 +17,7 @@ class PlayerModule extends Component
     public $playerInfo;
     public $playerFigures;
     public $diceThrows;
-    public $diceValue = 1;
+    public $diceValue;
 
     public function mount(){
         $this->playerInfo = GameRoomMember::where('user_id', Auth::user()->id)->first();
@@ -29,8 +30,7 @@ class PlayerModule extends Component
         $this->diceValue = rand(1,6);
         if($this->diceValue == 6){
             $this->diceThrows++;
-        }
-        $this->diceThrows--;     
+        }     
     }
 
     private function getDiceThrows(){
@@ -97,6 +97,15 @@ class PlayerModule extends Component
         return $field;
     }
 
+    public function updatedDiceThrows()
+    {   
+        //dd($this->diceThrows);
+        if($this->diceThrows == 0){
+            GameController::nextPlayerTurn($this->playerInfo->game_id, $this->playerInfo->user_id);
+            return redirect(route('home'));           
+        }
+    }
+
     public function moveFigure($subFigure){
 
         //Get the start field status
@@ -118,7 +127,7 @@ class PlayerModule extends Component
             $whoIsOnTheField->update([
                 'field_id' => $home->id,
             ]);
-            $this->diceValue =0;
+            $this->diceValue--;
           }
           return;
         }
@@ -146,6 +155,8 @@ class PlayerModule extends Component
                 $this->getFigure($subFigure)->update([
                     'field_id' => $moveTo->id,
                 ]);
+                $this->diceThrows--;
+                $this->updatedDiceThrows();
             }
         }
     }
