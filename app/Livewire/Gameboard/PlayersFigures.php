@@ -13,7 +13,7 @@ class PlayersFigures extends Component
     
 
     public function mount(){
-        $this->players = FiguresPositionModel::where('game_id',$this->gameId)->with('getFigureInfo','getFieldInfo')->get();
+        $this->players = FiguresPositionModel::where('game_id',$this->gameId)->with('getFigureInfo','getFieldInfo','getFigureSymbol')->get();
     }
     
     public function render()

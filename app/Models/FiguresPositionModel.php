@@ -30,4 +30,8 @@ class FiguresPositionModel extends Model
     {
         return $this->hasOne(FieldsModel::class, 'id','field_id');
     }
+    public function getFigureSymbol(): HasOne
+    {
+        return $this->hasOne(FigureSymbolModel::class, 'id','figure_sub_id');
+    }
 }

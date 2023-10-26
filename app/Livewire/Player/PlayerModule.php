@@ -16,7 +16,7 @@ class PlayerModule extends Component
     public $playerInfo;
     public $playerFigures;
     public $diceThrows;
-    public $diceValue = 6;
+    public $diceValue = 1;
 
     public function mount(){
         $this->playerInfo = GameRoomMember::where('user_id', Auth::user()->id)->first();
@@ -63,6 +63,10 @@ class PlayerModule extends Component
         return FieldsModel::where('alias', 'like', 'start_' . $this->playerInfo->getFigureInfo->alias)->first();
     }
 
+    private function getHomePosition($figure){
+        return FieldsModel::where('alias', 'like', '%_home_' . $figure)->first();
+    }
+
     private function getPositionStatus($field){
         return FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
         ->where('field_id', $field)->first();
@@ -77,28 +81,73 @@ class PlayerModule extends Component
         return str_contains($figure->getFieldInfo->alias,'home');
     }
 
+    private function getNewFieldPosition($fieldId){
+        $field = FieldsModel::where('id', $fieldId)->first();
+        $nextField = $field->nextField;
+        for ($i=1; $i <= $this->diceValue; $i++) {
+            if($nextField==NULL){
+                return;
+            }
+            if(FieldsModel::where('id', $nextField)->first()->alias == 'start_'.$this->playerInfo->getFigureInfo->alias){
+                $nextField = FieldsModel::where('alias',  $this->playerInfo->getFigureInfo->alias.'_finish1')->first()->id;
+            } 
+            $field = FieldsModel::where('id', $nextField)->first();
+            $nextField = $field->nextField;            
+        }  
+        return $field;
+    }
+
     public function moveFigure($subFigure){
 
-        dd($this->getPositionStatus($this->getStartPosition()->id));
-        dd($this->getPositionStatus($this->getStartPosition()->id));
-
+        //Get the start field status
         if ($this->getPositionStatus($this->getStartPosition()->id) != NULL) {
-            $whoIsOnTheField = $this->getPositionStatus($this->getStartPosition()->id)->figure_id;
+            $whoIsOnTheField = $this->getPositionStatus($this->getStartPosition()->id);
+            $whoIsOnTheFieldId = $whoIsOnTheField->figure_id;
         }else{
-            $whoIsOnTheField = 0;
+            $whoIsOnTheFieldId = 0;
         }
 
-        dd($whoIsOnTheField);
-       
-        //move player to start position
-        if($this->diceValue == 6 && $this->getIsFigureHome($subFigure) && $whoIsOnTheField != $this->playerInfo->figure_id){
+        //Move player to start position
+        if($this->diceValue == 6 && $this->getIsFigureHome($subFigure) && $whoIsOnTheFieldId != $this->playerInfo->figure_id){
           $this->getFigure($subFigure)->update([
             'field_id' => $this->getStartPosition()->id,
           ]);
+          //If enemy is on my field eat him 
+          if($whoIsOnTheFieldId){
+            $home= $this->getHomePosition($whoIsOnTheField->figure_id . $whoIsOnTheField->figure_sub_id);
+            $whoIsOnTheField->update([
+                'field_id' => $home->id,
+            ]);
+            $this->diceValue =0;
+          }
+          return;
         }
 
-        
-        
+        //Move player the dice value amount
+        if(!($this->getIsFigureHome($subFigure))){
+            $moveTo=$this->getNewFieldPosition($this->getFigure($subFigure)->first()->field_id);
+            if($moveTo == NULL){
+                return;
+            }
+            $whoIsOnTheField = $this->getPositionStatus($moveTo->id);
+            $whoIsOnTheFieldId = $whoIsOnTheField == NULL ? 0 : $whoIsOnTheField->figure_id;
+
+            if($whoIsOnTheFieldId == $this->playerInfo->figure_id){
+                return;
+            }elseif ($whoIsOnTheFieldId) {
+                $home= $this->getHomePosition($whoIsOnTheField->figure_id . $whoIsOnTheField->figure_sub_id);
+                $whoIsOnTheField->update([
+                    'field_id' => $home->id,
+                ]);
+                $this->getFigure($subFigure)->update([
+                    'field_id' => $moveTo->id,
+                ]);
+            }else{
+                $this->getFigure($subFigure)->update([
+                    'field_id' => $moveTo->id,
+                ]);
+            }
+        }
     }
 
 
