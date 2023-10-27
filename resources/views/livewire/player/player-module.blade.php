@@ -1,11 +1,10 @@
-<div class="card" wire:poll>
+<div class="card" wire:poll.3500ms>
     
     <div class="card-header">
         <span style="color: #@isset($playerInfo->getFigureInfo->color){{$playerInfo->getFigureInfo->color}}@endisset"><b>{{ Auth::user()->name }} </b></span> [#game: @isset($playerInfo->game_id) {{ $playerInfo->game_id }} @endisset]
         @if ($playerInfo->isMyTurn==1)
-            ->Turn: {{ $diceThrows }}x    
+            ->Turn: {{ $throwsLeft }}x    
         @endif
-        
     </div>
 
     {{-- Card-body if it's not the players turn --}}

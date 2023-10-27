@@ -16,7 +16,6 @@ class PlayerModule extends Component
 {
     public $playerInfo;
     public $playerFigures;
-    public $diceThrows;
     public $diceValue;
     public $dice=[
         '1'=>'#9856;',
@@ -29,42 +28,52 @@ class PlayerModule extends Component
     public $diceIcon;
     public $displayBtn;
 
+    public $throwsHas = 0;
+    public $throwsLeft;
+
     public function mount(){
         $this->playerInfo = GameRoomMember::where('user_id', Auth::user()->id)->first();
         $this->playerFigures = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
         ->where('figure_id',  $this->playerInfo->figure_id)->with('getFigureSymbol')
         ->get();
-        //$this->getDiceThrows();
         $this->displayBtn = 1;
     }
 
     public function booted(){
-        $this->getDiceThrows();      
+        $this->throwsLeft = $this->getPlayerMovements() - $this->throwsHas;
     }
 
     public function throwDice(){
-
-        $this->diceValue = rand(1,5);
+        //get dice value, and icon
+        $this->diceValue = rand(1,6);
         $this->diceIcon = $this->dice[$this->diceValue];
 
-        $startDiceThrows = $this->diceThrows;
-        if($this->getDiceThrows()==3 && $this->diceValue<6){
-            $this->diceThrows = $startDiceThrows -1;
+        $this->throwsHas++;
+        $this->throwsLeft = $this->getPlayerMovements() - $this->throwsHas;
+
+        if($this->getPlayerMovements() == 3 &&  $this->throwsLeft == 0 && $this->diceValue!=6){
+            $this->gameLogic();
         }
 
-        if($this->diceValue == 6){
-            $this->diceThrows=1;
+        if($this->throwsLeft == 0){
+            $this->displayBtn = 0; 
         }
-        
-        if($this->diceValue < 6 && $this->diceThrows==0){
-            $this->updatedDiceThrows();
-        }  
-        
-        
 
+        $figures = $this->playerFigures;
+        $canMove=false;
+        foreach ($figures as $figure) {
+            if($this->canFiguresMove($figure->figure_sub_id)){
+                $canMove=true;
+            }   
+        }
+
+        if (!$canMove && $this->throwsLeft == 0){
+            $this->gameLogic();
+        }
     }
 
-    private function getDiceThrows(){
+    private function getPlayerMovements(){
+
         $playerFields = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
         ->where('figure_id',  $this->playerInfo->figure_id)
         ->with('getFieldInfo')->get();
@@ -77,10 +86,10 @@ class PlayerModule extends Component
         }
 
         if($isPlayerHome ==4){
-            return $this->diceThrows = 3;
+            return 3;
         }
 
-        return $this->diceThrows = 1;
+        return 1;
     }
 
     private function getFigure($subFigure){
@@ -128,16 +137,17 @@ class PlayerModule extends Component
         return $field;
     }
 
-    public function updatedDiceThrows()
-    {   
-
-        if($this->diceValue==6){
-            $this->diceThrows =1;
-        }
+    public function gameLogic()
+    {
+        if($this->diceValue == 6){
+            $this->displayBtn = 1;
+            $this->diceValue = 0;
+            return redirect(route('home'));
+        }   
 
         $this->diceValue = 0;
 
-        if($this->diceThrows == 0){
+        if( $this->throwsLeft == 0){
             GameController::endMyTurn($this->playerInfo->game_id, $this->playerInfo->user_id);
             if(!(GameController::checkIfNextRound($this->playerInfo->game_id))){
                 GameController::startNewRound($this->playerInfo->game_id);
@@ -145,6 +155,38 @@ class PlayerModule extends Component
             GameController::getNextPlayerTurn($this->playerInfo->game_id);
             return redirect(route('home'));           
         }
+    }
+
+    private function canFiguresMove($subFigure){
+
+        //Get the start position status
+        if ($this->getPositionStatus($this->getStartPosition()->id) != NULL) {
+            $whoIsOnTheField = $this->getPositionStatus($this->getStartPosition()->id);
+            $whoIsOnTheFieldId = $whoIsOnTheField->figure_id;
+        }else{
+            $whoIsOnTheFieldId = 0;
+        }
+        //Get if figure can move to start position
+        if($this->diceValue == 6 && $this->getIsFigureHome($subFigure) && $whoIsOnTheFieldId != $this->playerInfo->figure_id){
+            return true;
+        }
+        
+        if(!($this->getIsFigureHome($subFigure))){
+            $moveTo=$this->getNewFieldPosition($this->getFigure($subFigure)->first()->field_id);
+            if($moveTo == NULL){
+                return false;
+            }
+            $whoIsOnTheField = $this->getPositionStatus($moveTo->id);
+            $whoIsOnTheFieldId = $whoIsOnTheField == NULL ? 0 : $whoIsOnTheField->figure_id;
+
+            if($whoIsOnTheFieldId == $this->playerInfo->figure_id){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return false;
+
     }
 
     public function moveFigure($subFigure){
@@ -169,9 +211,7 @@ class PlayerModule extends Component
                     'field_id' => $home->id,
                 ]);
             }
-            $this->diceThrows--;
-            $this->updatedDiceThrows();
-          return;
+            $this->gameLogic();
         }
 
         //Move player the dice value amount
@@ -193,12 +233,12 @@ class PlayerModule extends Component
                 $this->getFigure($subFigure)->update([
                     'field_id' => $moveTo->id,
                 ]);
+                $this->gameLogic();
             }else{
                 $this->getFigure($subFigure)->update([
                     'field_id' => $moveTo->id,
                 ]);
-                $this->diceThrows--;
-                $this->updatedDiceThrows();
+                $this->gameLogic();
             }
         }
     }
