@@ -37,6 +37,9 @@ class GameboardController extends Controller
         //dd(GameRoomMember::with('getFigureInfo')->get());
 
         //dd(FiguresPositionModel::with('getFigureInfo')->get());
+
+       //dd(!(GameController::checkIfNextRound(19)));
+        // GameController::getNextPlayerTurn(19);
        
         if(!(Auth::user())){
             return redirect('/');

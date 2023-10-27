@@ -38,17 +38,32 @@ class GameController extends Controller
         ->update(['isMyTurn' => 1]);
     }
 
-    static public function nextPlayerTurn($game, $user){
+    static public function endMyTurn($game, $user){
         //End my turn
         GameRoomMember::where('game_id', $game)
         ->where('user_id' , $user)->first()
-        ->update(['isMyTurn' => 2]);
+        ->update(['isMyTurn' => 2]);   
+    }
 
+    static public function getNextPlayerTurn($game){
         //Get next player
         GameRoomMember::where('game_id', $game)
         ->where('isMyTurn', 0)->first()
-        ->update(['isMyTurn' => 1]);
-        
+        ->update(['isMyTurn' => 1]);   
+    }
+
+    static public function checkIfNextRound($game){
+        //check if its new round
+        return GameRoomMember::where('game_id', $game)
+        ->where('isMyTurn','!=' , 2)->count();
+    }
+
+    static public function startNewRound($game){
+        //start new round
+        $members= GameRoomMember::where('game_id', $game)->get();
+        foreach ($members as $member) {
+            $member->update(['isMyTurn' => 0]);
+        }
     }
 
 }

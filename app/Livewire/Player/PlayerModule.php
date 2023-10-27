@@ -18,26 +18,57 @@ class PlayerModule extends Component
     public $playerFigures;
     public $diceThrows;
     public $diceValue;
+    public $dice=[
+        '1'=>'#9856;',
+        '2'=>'#9857;',
+        '3'=>'#9858;',
+        '4'=>'#9859;',
+        '5'=>'#9860;',
+        '6'=>'#9861;',
+    ];
+    public $diceIcon;
+    public $displayBtn;
 
     public function mount(){
         $this->playerInfo = GameRoomMember::where('user_id', Auth::user()->id)->first();
         $this->playerFigures = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
-        ->where('figure_id',  $this->playerInfo->figure_id)
+        ->where('figure_id',  $this->playerInfo->figure_id)->with('getFigureSymbol')
         ->get();
-        $this->getDiceThrows();
+        //$this->getDiceThrows();
+        $this->displayBtn = 1;
     }
+
+    public function booted(){
+        $this->getDiceThrows();      
+    }
+
     public function throwDice(){
-        $this->diceValue = rand(1,6);
+
+        $this->diceValue = rand(1,5);
+        $this->diceIcon = $this->dice[$this->diceValue];
+
+        $startDiceThrows = $this->diceThrows;
+        if($this->getDiceThrows()==3 && $this->diceValue<6){
+            $this->diceThrows = $startDiceThrows -1;
+        }
+
         if($this->diceValue == 6){
-            $this->diceThrows++;
-        }     
+            $this->diceThrows=1;
+        }
+        
+        if($this->diceValue < 6 && $this->diceThrows==0){
+            $this->updatedDiceThrows();
+        }  
+        
+        
+
     }
 
     private function getDiceThrows(){
         $playerFields = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
         ->where('figure_id',  $this->playerInfo->figure_id)
         ->with('getFieldInfo')->get();
-
+        
         $isPlayerHome = 0;
         foreach ($playerFields as $fields) {
             if(str_contains($fields->getFieldInfo->alias,'home')){
@@ -99,9 +130,19 @@ class PlayerModule extends Component
 
     public function updatedDiceThrows()
     {   
-        //dd($this->diceThrows);
+
+        if($this->diceValue==6){
+            $this->diceThrows =1;
+        }
+
+        $this->diceValue = 0;
+
         if($this->diceThrows == 0){
-            GameController::nextPlayerTurn($this->playerInfo->game_id, $this->playerInfo->user_id);
+            GameController::endMyTurn($this->playerInfo->game_id, $this->playerInfo->user_id);
+            if(!(GameController::checkIfNextRound($this->playerInfo->game_id))){
+                GameController::startNewRound($this->playerInfo->game_id);
+            }
+            GameController::getNextPlayerTurn($this->playerInfo->game_id);
             return redirect(route('home'));           
         }
     }
@@ -118,17 +159,18 @@ class PlayerModule extends Component
 
         //Move player to start position
         if($this->diceValue == 6 && $this->getIsFigureHome($subFigure) && $whoIsOnTheFieldId != $this->playerInfo->figure_id){
-          $this->getFigure($subFigure)->update([
-            'field_id' => $this->getStartPosition()->id,
-          ]);
-          //If enemy is on my field eat him 
-          if($whoIsOnTheFieldId){
-            $home= $this->getHomePosition($whoIsOnTheField->figure_id . $whoIsOnTheField->figure_sub_id);
-            $whoIsOnTheField->update([
-                'field_id' => $home->id,
+            $this->getFigure($subFigure)->update([
+                'field_id' => $this->getStartPosition()->id,
             ]);
-            $this->diceValue--;
-          }
+            //If enemy is on my field eat him 
+            if($whoIsOnTheFieldId){
+                $home= $this->getHomePosition($whoIsOnTheField->figure_id . $whoIsOnTheField->figure_sub_id);
+                $whoIsOnTheField->update([
+                    'field_id' => $home->id,
+                ]);
+            }
+            $this->diceThrows--;
+            $this->updatedDiceThrows();
           return;
         }
 
