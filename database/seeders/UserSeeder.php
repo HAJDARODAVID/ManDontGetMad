@@ -34,6 +34,30 @@ class UserSeeder extends Seeder
             'type' => '1'
         ],
         [
+            'name' => 'Lucija',
+            'email' => 'lucija@gmail.com',
+            'password' =>Hash::make('123'),
+            'type' => '1'
+        ],
+        [
+            'name' => 'Ivana',
+            'email' => 'ivana@gmail.com',
+            'password' =>Hash::make('123'),
+            'type' => '1'
+        ],
+        [
+            'name' => 'Sačo',
+            'email' => 'saco@gmail.com',
+            'password' =>Hash::make('123'),
+            'type' => '1'
+        ],
+        [
+            'name' => 'Nido',
+            'email' => 'nido@gmail.com',
+            'password' =>Hash::make('123'),
+            'type' => '1'
+        ],
+        [
             'name' => 'ADMIN',
             'email' => 'admin@gmail.com',
             'password' =>Hash::make('784951623'),
