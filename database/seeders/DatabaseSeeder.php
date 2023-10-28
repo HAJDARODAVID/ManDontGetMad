@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FiguresSeeder::class,
             FieldsSeeder::class,
-            FiguresSymbolSeeder::class
+            FigureSymbolSeeder::class
         ]);
     }
 }
