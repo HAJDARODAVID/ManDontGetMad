@@ -27,6 +27,9 @@ class HomeController extends Controller
         if(Auth::user()->type == 0){
             return redirect(route('gameboard'));
         }
+        if(Auth::user()->type == 2){
+            return redirect('/admin');
+        }
         return view('home');
     }
 }

@@ -33,10 +33,14 @@ class PlayerModule extends Component
 
     public function mount(){
         $this->playerInfo = GameRoomMember::where('user_id', Auth::user()->id)->first();
-        $this->playerFigures = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
-        ->where('figure_id',  $this->playerInfo->figure_id)->with('getFigureSymbol')
-        ->get();
-        $this->displayBtn = 1;
+        //dd($this->playerInfo);
+        if($this->playerInfo != NULL){
+            $this->playerFigures = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
+            ->where('figure_id',  $this->playerInfo->figure_id)->with('getFigureSymbol')->get();
+            $this->displayBtn = 1;
+
+        }
+        
     }
 
     public function booted(){
@@ -74,22 +78,24 @@ class PlayerModule extends Component
 
     private function getPlayerMovements(){
 
-        $playerFields = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
-        ->where('figure_id',  $this->playerInfo->figure_id)
-        ->with('getFieldInfo')->get();
-        
-        $isPlayerHome = 0;
-        foreach ($playerFields as $fields) {
-            if(str_contains($fields->getFieldInfo->alias,'home')){
-                $isPlayerHome++;
+        if($this->playerInfo != NULL){
+            $playerFields = FiguresPositionModel::where('game_id', $this->playerInfo->game_id)
+            ->where('figure_id',  $this->playerInfo->figure_id)
+            ->with('getFieldInfo')->get();
+            
+            $isPlayerHome = 0;
+            foreach ($playerFields as $fields) {
+                if(str_contains($fields->getFieldInfo->alias,'home')){
+                    $isPlayerHome++;
+                }
             }
-        }
 
-        if($isPlayerHome ==4){
-            return 3;
-        }
+            if($isPlayerHome ==4){
+                return 3;
+            }
 
-        return 1;
+            return 1;
+        }
     }
 
     private function getFigure($subFigure){
